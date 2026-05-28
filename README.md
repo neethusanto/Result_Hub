@@ -1,21 +1,21 @@
-# 📊 Result Hub
+#  Result Hub
 
 Result Hub is a Django-based web application designed to manage, process, and display student results efficiently. It supports Excel file uploads and provides an organized way to analyze and view data.
 
 ---
 
-## 🚀 Features
+##  Features
 
-- 📂 Upload Excel files (student results)
-- 📊 Process and display structured data
-- 🔍 Search and filter results
-- 🧮 Custom data handling using Django models
-- 🎯 User-friendly interface
-- ⚙️ Admin panel for management
+-  Upload Excel files (student results)
+-  Process and display structured data
+-  Search and filter results
+-  Custom data handling using Django models
+-  User-friendly interface
+-  Admin panel for management
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Backend:** Django (Python)
 - **Frontend:** HTML, CSS, Bootstrap
@@ -28,7 +28,7 @@ Result Hub is a Django-based web application designed to manage, process, and di
 
 ---
 
-## ⚙️ Installation
+##  Installation
 
 ### 1. Clone the repository
 
