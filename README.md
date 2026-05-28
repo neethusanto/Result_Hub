@@ -25,9 +25,6 @@ Result Hub is a Django-based web application designed to manage, process, and di
 ---
 
 
-
----
-
 ##  Installation
 
 ### 1. Clone the repository
@@ -36,24 +33,45 @@ Result Hub is a Django-based web application designed to manage, process, and di
 git clone https://github.com/your-username/result-hub.git
 cd result-hub
 
-
+--Create virtual environment--
 python -m venv env
 source env/bin/activate   # On Windows: env\Scripts\activate
 
+--Install dependencies--
 pip install -r requirements.txt
-
 pip install django pandas openpyxl
 
+---Run migrations---
 python manage.py makemigrations
 python manage.py migrate
 
-
+----Run the server---
 python manage.py runserver
 
-
+---Admin Access---
 python manage.py createsuperuser
 
 
 
 
-## 📁 Project Structure
+##  Project Structure
+
+RESULT_HUB/
+│
+├── result_hub/
+│ ├── core/ # Main app
+│ │ ├── models.py # Database models
+│ │ ├── views.py # Business logic
+│ │ ├── forms.py # Form handling
+│ │ ├── urls.py # App routing
+│ │
+│ ├── result_hub/ # Project settings
+│ │ ├── settings.py
+│ │ ├── urls.py
+│ │
+│ ├── manage.py
+│
+├── Book1.xlsx # Sample data
+├── Book2.xlsx
+├── Book3.xlsx
+└── newenv/ # Virtual environment (not needed in repo)
