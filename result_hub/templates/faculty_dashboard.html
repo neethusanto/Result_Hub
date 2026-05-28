@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary shadow">
+            <div class="card-body">
+                <h5>Total Students</h5>
+                <h2>{{ total_students }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success shadow">
+            <div class="card-body">
+                <h5>Total Results</h5>
+                <h2>{{ total_results }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <a href="{% url 'upload' %}" class="btn btn-success w-100">📤 Upload Results</a>
+                <div class="mt-2">
+                    <a href="{% url 'analytics' %}" class="btn btn-outline-info btn-sm">Analytics</a>
+                    <a href="{% url 'toppers' %}" class="btn btn-outline-warning btn-sm">Toppers</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Student List</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead><tr><th>Reg No</th><th>Name</th><th>Semester</th><th>Department</th></tr></thead>
+            <tbody>
+                {% for s in students %}
+                <tr>
+                    <td>{{ s.reg_no }}</td>
+                    <td>{{ s.user.username }}</td>
+                    <td>{{ s.semester }}</td>
+                    <td>{{ s.department.name }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" class="text-center">No students found</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

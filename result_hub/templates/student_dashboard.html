@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="row">
+    <!-- LEFT COLUMN: Results -->
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <h4 class="mb-0">My Results</h4>
+                    <div>
+                        <a href="{% url 'download_marklist' %}" class="btn btn-light btn-sm">📄 Download PDF Marklist</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if semesters %}
+                    <ul class="nav nav-tabs">
+                        {% for sem, results in semesters.items %}
+                            <li class="nav-item">
+                                <button class="nav-link {% if forloop.first %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#sem-{{ sem }}">Semester {{ sem }}</button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="tab-content mt-3">
+                        {% for sem, results in semesters.items %}
+                            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="sem-{{ sem }}">
+                                <h6>SGPA: {{ semester_gpa|get_item:sem }}</h6>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr><th>Subject</th><th>Grade</th><th>GP</th><th>Status</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for r in results %}
+                                        <tr>
+                                            <td>{{ r.subject.name }}</td>
+                                            <td>{{ r.grade }}</td>
+                                            <td>{{ r.grade_point }}</td>
+                                            <td>{% if r.is_pass %}✅ Pass{% else %}❌ Fail{% endif %}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No results uploaded yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Profile + Notifications -->
+    <div class="col-md-4">
+        <!-- Profile Card -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Student Profile</h5>
+            </div>
+            <div class="card-body text-center">
+                {% if student.image %}
+                    <img src="{{ student.image.url }}" class="rounded-circle mb-2" width="120" height="120">
+                {% else %}
+                    <div class="bg-secondary rounded-circle mx-auto mb-2" style="width:120px;height:120px;line-height:120px;color:white;">No Image</div>
+                {% endif %}
+                <h5>{{ student.user.get_full_name|default:student.user.username }}</h5>
+                <p><strong>📧 Email:</strong> {{ student.user.email|default:"Not set" }}</p>
+                <p><strong>📌 Reg No:</strong> {{ student.reg_no }}</p>
+                <p><strong>🏫 College:</strong> {{ student.college_name|default:"Not set" }}</p>
+                <p><strong>📍 Place:</strong> {{ student.place|default:"Not set" }}</p>
+                <p><strong>📞 Phone:</strong> {{ student.phone|default:"Not set" }}</p>
+                <p><strong>👨 Father:</strong> {{ student.father_name|default:"Not set" }}</p>
+                <p><strong>👩 Mother:</strong> {{ student.mother_name|default:"Not set" }}</p>
+                {% if student.signature %}
+                    <hr>
+                    <p>Signature:</p>
+                    <img src="{{ student.signature.url }}" width="150">
+                {% endif %}
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary mt-2">✏️ Edit Profile</a>
+            </div>
+        </div>
+
+        <!-- Notifications Card -->
+        <div class="card shadow">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0">Notifications</h5>
+            </div>
+            <div class="card-body">
+                {% for n in notifications %}
+                    <div class="alert alert-info">{{ n.message }}</div>
+                {% empty %}
+                    <p class="text-muted">No notifications</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart for grade points -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = [];
+    const data = [];
+    {% for sem, results in semesters.items %}
+        {% for r in results %}
+            labels.push("{{ r.subject.name }}");
+            data.push({{ r.grade_point }});
+        {% endfor %}
+    {% endfor %}
+    new Chart(document.getElementById('myChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Grade Points',
+                data: data,
+                backgroundColor: '#36a2eb'
+            }]
+        }
+    });
+</script>
+{% endblock %}

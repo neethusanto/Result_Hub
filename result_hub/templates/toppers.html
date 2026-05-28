@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-warning text-dark">
+        <h4>🏆 Top Performing Students</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead><tr><th>Rank</th><th>Reg No</th><th>Student Name</th><th>Average GPA</th></tr></thead>
+            <tbody>
+                {% for t in toppers %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ t.student__reg_no }}</td>
+                    <td>{{ t.student__user__username }}</td>
+                    <td><strong>{{ t.avg_gpa|floatformat:2 }}</strong></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" class="text-center">No result data available</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

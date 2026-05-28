@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>Edit Profile</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label>Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label>Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="col-md-6">
+                        <label>Phone</label>
+                        {{ form.phone }}
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label>Place</label>
+                        {{ form.place }}
+                    </div>
+                    <div class="col-md-6">
+                        <label>College Name</label>
+                        {{ form.college_name }}
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label>Father's Name</label>
+                        {{ form.father_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label>Mother's Name</label>
+                        {{ form.mother_name }}
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label>Profile Image</label>
+                        {{ form.image }}
+                        {% if student.image %}
+                            <br><img src="{{ student.image.url }}" width="100">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label>Signature</label>
+                        {{ form.signature }}
+                        {% if student.signature %}
+                            <br><img src="{{ student.signature.url }}" width="100">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <a href="{% url 'student_dashboard' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
